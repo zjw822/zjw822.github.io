@@ -1,0 +1,27 @@
+<html><head></head><body>
+<script>
+    function calc(val){
+        if(val < 1){
+            alert("`val` should be positive!");
+        }
+        else {
+            result = val + ' ';
+            while(val > 1){
+                if(val % 2 == 0){
+                    val /= 2;
+                }
+                else {
+                    val = (val*3)+1;
+                }
+                result += val + ' ';
+            }
+
+            alert(result);
+        }
+    }
+</script>
+<form>
+    <input id="a">
+    <input type="button" onClick="calc(this.form.a.value)" value="按我計算結果">
+</form>
+</body></html>
