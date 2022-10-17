@@ -1,0 +1,16 @@
+<html><head></head><body>
+ 
+<script>
+    function monthDay(){
+        val = parseInt(a.value); // 這個問號只允許抓取輸入框的值
+        myArr = [0,31,28.29,31,30,31,30,31,31,30,31,30,31]; // 這個問號只允許填充陣列內容
+        alert(val + "月有 "  + myArr[val] + " 天"); // 這個問號只允許取得陣列內容
+    }
+</script>
+ 
+<form>
+    <input id="a" placeholder="輸入月份">
+    <input type="button" onClick="monthDay()" value="按我得知該月有幾天">
+</form>
+ 
+</body></html>
