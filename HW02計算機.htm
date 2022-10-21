@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>計算機</title>
+    </head>
+    <script>
+        function get(value) {
+            document.getElementById("display").value += value; //輸入數字帶入到顯示
+        } 
+        function calculates() {
+            var result = 0;
+            result = document.getElementById("display").value;
+            document.getElementById("display").value = "";
+            document.getElementById("display").value = eval(result);//執行eval計算加減乘除
+        }
+        function del() {
+            var result = 0;//result初始為0
+            result = document.getElementById("display").value;//result帶入顯示數字
+            document.getElementById("display").value = "";//輸入框不顯示數字
+            document.getElementById("display").value = document.getElementById("display").slice(0,-1);//輸入框從第0個字元倒退一個字元
+        }
+        function pow(){
+        var result = 0;//result初始為0
+            result = document.getElementById("display").value;//result帶入顯示數字
+            document.getElementById("display").value = (Math.pow (result,result));//result的平方
+    }
+        function sqrt(){
+        var result = 0;//result初始為0
+            result = document.getElementById("display").value;//result帶入顯示數字
+            document.getElementById("display").value = (Math.sqrt (result));//result的平方根
+    }
+    // (O) 15%：表單按鈕應包含 0~9 數字鍵、小數點、加減乘除計算鍵、等於鍵、清除鍵
+    // (O) 10%：輸入框應有 disabled 屬性，使得一般使用者無法直接透過鍵盤輸入內容在輸入框
+    // (O) 20%：按下按鈕時，將對應的數字或完整算式顯示於 input 輸入框、按下等於鍵時，將結果顯示於輸入框
+    // (X) 20%：基本錯誤偵測，遇到不合法算式(例如"1.2.3+4.5.6"或"3+++5")，使用 alert 或其他方式提示使用者
+    // (O) 倒退（最後為無內容）： 10
+    // (O) Math 物件函數（單輸入）： 10 (平方&根號)
+    </script>
+    <body>
+        <form name="calculator">
+            <input type="reset" id="clear" value="C">
+            <input type="text" id="display" value="" disabled>
+                <br>
+            <input type="button" value="7" onclick="get(this.value);">
+            <input type="button" value="8" onclick="get(this.value);">
+            <input type="button" value="9" onclick="get(this.value);">
+            <input type="button" value="+" onclick="get(this.value);">
+            <input type="button" value="del" onclick="del();">
+                <br>
+            <input type="button" value="4" onclick="get(this.value);">
+            <input type="button" value="5" onclick="get(this.value);">
+            <input type="button" value="6" onclick="get(this.value);">
+            <input type="button" value="*" onclick="get(this.value);">
+            <input type="button" value="p" onclick="pow();">
+                <br>
+            <input type="button" value="1" onclick="get(this.value);">
+            <input type="button" value="2" onclick="get(this.value);">
+            <input type="button" value="3" onclick="get(this.value);">
+            <input type="button" value="-" onclick="get(this.value);">
+            <input type="button" value="√" onclick="sqrt();">
+                <br>
+            <input type="button" value="0" onclick="get(this.value);">
+            <input type="button" value="." onclick="get(this.value);">
+            <input type="button" value="/" onclick="get(this.value);">         
+            <input type="button" value="=" onclick="calculates();">
+        </form>
+
+    </body>
+</html>
