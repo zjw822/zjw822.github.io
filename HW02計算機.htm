@@ -12,12 +12,12 @@
             document.getElementById("display").value = "";
             document.getElementById("display").value = eval(result);//執行eval計算加減乘除
         }
-        function del() {
-            var result = 0;//result初始為0
-            result = document.getElementById("display").value;//result帶入顯示數字
-            document.getElementById("display").value = "";//輸入框不顯示數字
-            document.getElementById("display").value = document.getElementById("display").slice(0,-1);//輸入框從第0個字元倒退一個字元
-        }
+        // function del() {
+        //     var result = 0;
+        //     result = document.getElementById("display").value;
+        //     document.getElementById("display").value = "";
+        //     document.getElementById("display").value = document.getElementById("display").slice(0,-1);
+        // }
         function pow(){
         var result = 0;//result初始為0
             result = document.getElementById("display").value;//result帶入顯示數字
@@ -28,10 +28,18 @@
             result = document.getElementById("display").value;//result帶入顯示數字
             document.getElementById("display").value = (Math.sqrt (result));//result的平方根
     }
+    //     function tc(){
+    //     try {
+    //         result.value = eval(result.value);
+    //     }
+    //     catch(e){
+    //         alert('Error!');
+    //     }
+    // };
     </script>
     <body>
         <form name="calculator">
-            <input type="reset" id="clear" value="C">
+            
             <input type="text" id="display" value="" disabled>
                 <br>
             <input type="button" value="7" onclick="get(this.value);">
@@ -49,13 +57,15 @@
             <input type="button" value="1" onclick="get(this.value);">
             <input type="button" value="2" onclick="get(this.value);">
             <input type="button" value="3" onclick="get(this.value);">
-            <input type="button" value="-" onclick="get(this.value);">
+            <input type="button" value="-" id="eq" onclick="get(this.value);">
             <input type="button" value="√" onclick="sqrt();">
                 <br>
             <input type="button" value="0" onclick="get(this.value);">
             <input type="button" value="." onclick="get(this.value);">
             <input type="button" value="/" onclick="get(this.value);">         
             <input type="button" value="=" onclick="calculates();">
+            <input type="reset" id="clear" value="C">
         </form>
+
     </body>
 </html>
