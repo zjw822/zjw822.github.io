@@ -1,0 +1,24 @@
+<html>
+<head></head>
+<body bgcolor="#ccccff">
+ 
+<canvas id="myCanvas" width="600" height="600" style="border:1px solid"></canvas>
+ 
+<script>
+var canvas = document.getElementById("myCanvas"); // 取得物件
+var ctx = canvas.getContext("2d"); // 取得繪圖環境
+var grad = ctx.createLinearGradient(50,50,400,400);
+grad.addColorStop(0.00, "MediumPurple");
+grad.addColorStop(0.25, "plum");
+grad.addColorStop(0.50, "SandyBrown");
+grad.addColorStop(0.75, "wheat");
+ 
+ctx.fillStyle = grad;
+ 
+ctx.font = '80px 標楷體';
+ctx.textAlign = 'center';
+ 
+ctx.fillText("實心文字", 150, 150);
+</script>
+ 
+</body></html>

@@ -1,0 +1,50 @@
+<html>
+<head></head>
+<body bgcolor="#ccccff">
+
+<canvas width="500" height="1000" id="myCanvas" style="border:1px solid;position:absolute;top:100;left:100;"></canvas>
+<input type="button" id="save" value="在新視窗開啟圖片">
+
+<form>
+    <input type="color" id="c">
+    <input type="range" min="1" max="15" id="r">
+</form> 
+
+<script>
+var canvas = document.getElementById("myCanvas"); // 取得物件
+var ctx = canvas.getContext("2d"); // 取得繪圖環境
+var drawMode, mx, my;
+var c = document.getElementById("c");
+var r = document.getElementById("r");
+ 
+canvas.onmousedown = function(ev){
+    ctx.beginPath();
+    ctx.strokeStyle = c.value;
+    ctx.lineWidth = r.value;
+    mx = event.clientX - parseInt(canvas.style.left) + window.pageXOffset;
+    my = event.clientY - parseInt(canvas.style.top) + window.pageYOffset;
+    ctx.moveTo(mx, my);
+    drawMode = true;
+}
+ 
+canvas.onmousemove = function(ev){
+    if(drawMode){
+        mx = event.clientX - parseInt(canvas.style.left) + window.pageXOffset;
+        my = event.clientY - parseInt(canvas.style.top) + window.pageYOffset;
+        ctx.lineTo(mx, my);
+        ctx.stroke();
+    }
+}
+ 
+canvas.onmouseup = function(){
+    drawMode = false;
+}
+ 
+document.getElementById("save").onclick = function(){
+    new_win = window.open();
+    new_win.document.write("<img src='" + ctx.canvas.toDataURL('img/png') + "'>")
+}
+</script>
+
+
+</body></html>
