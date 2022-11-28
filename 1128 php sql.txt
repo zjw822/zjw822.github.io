@@ -1,0 +1,7 @@
+SELECT people_cnt FROM `school_stat` WHERE `college`='工學院' AND`dept`='建築學系' AND grade=4;
+
+SELECT people_cnt FROM `school_stat` WHERE `grade`=4 ORDER BY `people_cnt`ASC;
+
+SELECT `college`,COUNT(DISTINCT `dept`) FROM `school_stat` WHERE `college`='教育學院';
+
+SELECT `college`,`dept`,SUM(`people_cnt`) FROM `school_stat` WHERE `college`IN('理學院','工學院') GROUP BY `dept`;
