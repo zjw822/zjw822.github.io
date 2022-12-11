@@ -1,0 +1,99 @@
+<html>
+<head>
+</head>
+<body bgcolor="#657ED4">
+<div class="block1">
+    <section class="tools">
+        <div class="R">
+            <label class="title"><b>建立形狀</b></label>
+                <ul class="optns" style="list-style:none; padding-left:10;">
+                    <li class="optn">
+                        <input type="checkbox" id="fillclr">
+                        <label for="fillclr">填入顏色</label>
+                    </li>
+                    <li class="optn">
+                        <span>四邊形</span>
+                    </li>
+                    <li class="optn">
+                        <span>三角形</span>
+                    </li>
+                    <li class="optn">
+                        <span>圓形</span>
+                    </li>
+                </ul>
+        </div>
+        <div class="R">
+            <label class="title"><b>工具列</b></label>
+            <ul class="optns" style="list-style:none; padding-left:10;">
+                <li class="optn active">
+                    <span>筆刷</span>
+                </li>
+                <li class="optn">
+                    <span></span>
+                </li>
+                <li class="optn">
+                    <span>選擇顏色</span><br>
+                    <input type="color" id="c">
+                </li>
+                <li class="optn">
+                    <span>調整畫筆粗細</span>
+                    <input type="range" id="r" min="1" max="20">
+                </li>
+                <li class="optn">
+                    <span>橡皮擦</span>
+                </li>
+                <!-- <li class="optn">
+                    <input type="button" id="save" value="在分頁打開畫作" style=" font-weight: bold ; stroke-width: 20px ;">
+                </li>
+                <li class="optn">
+                    <input type="button" id="clearcanvas" value="清除畫布" style=" font-weight: bold ; stroke-width: 20px ;">
+                </li> -->
+            </ul>
+        </div>
+        <div class="btns">
+            <input type="button" id="save" value="在分頁打開畫作">
+            <input type="button" id="clearcanvas" value="清除畫布">
+        </div>
+    </section>
+</div>
+
+<canvas width="1000" height="1000" class="drawplace" id="myCanvas" style="border:4px solid;position:absolute;top:100;left:100;"></canvas>
+<!-- <canvas width="1000" height="900" class="drawplace" id="myCanvas" style="border:5px solid;border-radius: 10px;position:absolute;top:middle;left:10;"></canvas> -->
+
+&nbsp;<script>
+var canvas = document.getElementById("myCanvas"); // 取得物件
+var ctx = canvas.getContext("2d"); // 取得繪圖環境
+var drawMode, mx, my;
+var c = document.getElementById("c");
+var r = document.getElementById("r");	
+canvas.onmousedown = function(ev){
+    ctx.beginPath();
+    ctx.strokeStyle = c.value;
+    ctx.lineWidth = r.value;
+    mx = event.clientX - parseInt(canvas.style.left) + window.pageXOffset;
+    my = event.clientY - parseInt(canvas.style.top) + window.pageYOffset;
+    ctx.moveTo(mx, my);
+    drawMode = true;
+}
+ 
+canvas.onmousemove = function(ev){
+    if(drawMode){
+        mx = event.clientX - parseInt(canvas.style.left) + window.pageXOffset;
+        my = event.clientY - parseInt(canvas.style.top) + window.pageYOffset;
+        ctx.lineTo(mx, my);
+        ctx.stroke();
+    }
+}
+ 
+canvas.onmouseup = function(){
+    drawMode = false;
+}
+ 
+document.getElementById("save").onclick = function(){
+    new_win = window.open();
+    new_win.document.write("<img src='" + ctx.canvas.toDataURL('img/png') + "'>")
+}
+</script>
+
+
+</body></html>
