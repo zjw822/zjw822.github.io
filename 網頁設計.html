@@ -1,6 +1,86 @@
 <html>
-<head>
-</head>
+    <head>
+        <style>
+            body{
+                display: flex;
+                align-items: center;
+                justify-content: right;
+                padding-right: 40px;
+                min-height: 100vh;
+            }
+            .tools{
+                display:block;
+                align-self: left;
+                width: 100%;
+                max-width: 1200px;
+            }
+            .drawplace{
+                flex: 1;
+            }
+            section{
+                border-radius: 5px;
+                background-color: #F2A65A;
+            }
+            .tools{
+                padding: 15 15 15;
+            }
+            .R .optns{
+                margin: 10px;
+            }
+            .R .optns .optn{
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+                cursor: pointer;
+            }
+            .optn :where(span, label){
+                color:rgb(44, 44, 44);
+                padding-left :10px;
+                cursor: pointer;
+            }
+            .optn #fillclr{
+                height: 16;
+                width: 16;
+                cursor: pointer;
+            }
+            .optn:is(:hover,.active) :where(span, label){
+                color: royalblue;
+            }
+            #fillclr:checked ~ label{
+                color: royalblue;
+            }
+            #save{
+                color: aliceblue;
+                border: none;
+                outline: none;
+                background:royalblue;
+                font-size: medium;
+                cursor: pointer;
+                padding: 10;
+                border-radius: 12px;
+            }
+            #clearcanvas{
+                color: rgb(64, 69, 73);
+                border: 1 solid rgb(64, 69, 73);
+                outline: none;
+                background:none;
+                font-size: medium;
+                cursor: pointer;
+                padding: 8;
+                border-radius: 12px;
+            }
+            #clearcanvas:hover{
+                background: white;
+            }
+            .drawzone{
+                flex:1
+            }
+            .drawzone canvas{
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
 <body bgcolor="#657ED4">
 <div class="block1">
     <section class="tools">
