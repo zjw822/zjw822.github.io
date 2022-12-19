@@ -1,8 +1,8 @@
 <?php
 $db_server = "localhost";
-$db_user = "1212";
-$db_passwd = "1212";
-$db_name = "1212";
+$db_user = "test1219";
+$db_passwd = "asd1219";
+$db_name = "test1219";
  
 try {
     $dsn = "mysql:host=$db_server;dbname=$db_name";
