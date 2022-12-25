@@ -1,0 +1,260 @@
+<html>
+  <head>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: right;
+        padding-right: 40px;
+        min-height: 100vh;
+      }
+      .tools {
+        display: block;
+        align-self: left;
+        width: 100%;
+        max-width: 1200px;
+      }
+      section {
+        border-radius: 5px;
+        background-color: #f2a65a;
+      }
+      .tools {
+        padding: 15 15 15;
+      }
+      .R .optns {
+        margin: 10px;
+      }
+      .R .optns .optn {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        cursor: pointer;
+      }
+      .optn :where(span, label) {
+        color: rgb(44, 44, 44);
+        padding-left: 10px;
+        cursor: pointer;
+      }
+      .optn #fillclr {
+        height: 16;
+        width: 16;
+        cursor: pointer;
+      }
+      .optn:is(:hover,) :where(span, label) {
+        color: royalblue;
+      }
+      #fillclr:checked ~ label {
+        color: royalblue;
+      }
+      #save {
+        color: aliceblue;
+        border: none;
+        outline: none;
+        background: royalblue;
+        font-size: medium;
+        cursor: pointer;
+        padding: 10;
+        border-radius: 12px;
+      }
+      #clearcanvas {
+        color: rgb(64, 69, 73);
+        border: 1 solid rgb(64, 69, 73);
+        outline: none;
+        background: none;
+        font-size: medium;
+        cursor: pointer;
+        padding: 8;
+        border-radius: 12px;
+      }
+      #clearcanvas:hover {
+        background: white;
+      }
+    </style>
+  </head>
+  <body bgcolor="#657ED4">
+    <div class="block1">
+      <section class="tools">
+        <div class="R">
+          <label class="title"><b>建立形狀</b></label>
+          <ul class="optns" style="list-style: none; padding-left: 10">
+            <li class="optn">
+              <input type="checkbox" id="fillclr" />
+              <label for="fillclr">填入顏色</label>
+            </li>
+            <li class="optn" id="rect">
+              <span>四邊形</span>
+            </li>
+            <li class="optn" id="trian">
+              <span>三角形</span>
+            </li>
+          </ul>
+        </div>
+        <div class="R">
+          <label class="title"><b>工具列</b></label>
+          <ul class="optns" style="list-style: none; padding-left: 10">
+            <li class="optn active" id="brush">
+              <span>筆刷</span>
+            </li>
+            <li class="optn">
+              <span></span>
+            </li>
+            <li class="optn">
+              <span>選擇顏色</span><br />
+              <input type="color" id="c" />
+            </li>
+            <li class="optn">
+              <span>調整畫筆粗細</span>
+              <input type="range" id="r" min="1" max="20" />
+            </li>
+            <li class="optn" id="eraser">
+              <span>橡皮擦</span>
+            </li>
+          </ul>
+        </div>
+        <div class="btns">
+          <input type="button" id="save" value="在分頁打開畫作" />
+          <input type="button" id="clearcanvas" value="清除畫布" />
+        </div>
+      </section>
+    </div>
+
+    <canvas
+      width="1000"
+      height="1000"
+      class="drawplace"
+      id="myCanvas"
+      style="border: 4px solid; position: absolute; top: 100; left: 100"
+    >
+    </canvas>
+
+    &nbsp;
+    <script>
+        // 取得物件
+        var canvas = document.getElementById("myCanvas");
+        // 取得繪圖環境
+        var ctx = canvas.getContext("2d"); 
+        //宣告繪畫模式、XY的起始結束點、形狀模式、填色模式
+        var drawMode,
+          startX,
+          startY,
+          endX,
+          endY,
+          brushMode,
+          rectMode,
+          trianMode,
+          eraserMode,
+          colorFilled;
+        var c = document.getElementById("c");
+        var r = document.getElementById("r");
+        var brushBtn = document.getElementById("brush");
+        var tools = document.querySelector(".tools");
+        var colorFilledBtn = document.getElementById("fillclr");
+        clearcanvas = document.getElementById("clearcanvas");
+
+        brushMode = true; // 預設筆刷一開始是被選取的狀態
+        tools.addEventListener("click", (e) => {
+          //當不同按鈕按下時，改變成為按下按鈕的模式
+          if (e.target.textContent === "四邊形") {
+            rectMode = true;
+            trianMode = circleMode = eraserMode = brushMode = false;
+          }
+          if (e.target.textContent === "三角形") {
+            trianMode = true;
+            rectMode = circleMode = eraserMode = brushMode = false;
+          }
+          if (e.target.textContent === "筆刷") {
+            brushMode = true;
+            circleMode = rectMode = trianMode = eraserMode = false;
+          }
+          if (e.target.textContent === "橡皮擦") {
+            eraserMode = true;
+            circleMode = rectMode = trianMode = brushMode = false;
+          }
+        });
+
+        // 畫線和橡皮擦僅差在顏色為背景顏色還是筆刷顏色
+        const drawLines = (mouseAction, mode) => {
+          if (mode === "brush") ctx.strokeStyle = c.value;
+          if (mode === "eraser") ctx.strokeStyle = "#657ED4";
+          if (mouseAction === "mousedown") {
+            ctx.beginPath();
+            ctx.lineWidth = r.value;
+            ctx.moveTo(startX, startY);
+          }
+          if (mouseAction === "mousemove") {
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+          }
+        };
+
+        // 矩形fuction
+        const drawRectangle = (colorFilled) => {
+          // 要填滿的顏色和外框線的style
+          ctx.strokeStyle = ctx.fillStyle = c.value;
+          ctx.lineWidth = r.value;
+          // 矩形的長寬以滑鼠起點和終點計算
+          const width = endX - startX;
+          const height = endY - startY;
+          // 若有填入顏色，使用.fillRect()；若無，使用.strokeRect()
+          if (colorFilled === true) {
+            ctx.fillRect(startX, startY, width, height);
+          } else {
+            ctx.strokeRect(startX, startY, width, height);
+          }
+        };
+
+        // 三角形function
+        const drawTriangle = (colorFilled) => {
+          // 要填滿的顏色和外框線的style
+          ctx.strokeStyle = ctx.fillStyle = c.value;
+          ctx.lineWidth = r.value;
+          ctx.beginPath();
+          // 畫三角形的三邊
+          ctx.moveTo(startX, startY); // 頂點為起點
+          ctx.lineTo(endX, endY); // 起點出發畫到終點為其中一邊
+          ctx.lineTo(endX - 2 * (endX - startX), endY); // 從終點出發水平向左畫線，長度為起點和終點x軸差距的兩倍
+          ctx.lineTo(startX, startY); // 再畫回起點
+          ctx.closePath();
+          // 若填入顏色，使用.fill()；反之使用.stroke()
+          if (colorFilled) {ctx.fill()}
+          else ctx.stroke();
+        };
+
+        canvas.onmousedown = function (ev) {
+          drawMode = true;
+          startX = ev.clientX - parseInt(canvas.style.left) + window.pageXOffset;
+          startY = ev.clientY - parseInt(canvas.style.top) + window.pageYOffset;
+          if (drawMode){drawLines("mousedown")};
+        };
+
+        canvas.onmousemove = function (ev) {
+          endX = ev.clientX - parseInt(canvas.style.left) + window.pageXOffset;
+          endY = ev.clientY - parseInt(canvas.style.top) + window.pageYOffset;
+          if (drawMode & brushMode) {
+            drawLines("mousemove", "brush");
+          }
+          if (drawMode & eraserMode) {
+            drawLines("mousemove", "eraser");
+          }
+        };
+
+        canvas.onmouseup = function (ev) {
+          endX = ev.clientX - parseInt(canvas.style.left) + window.pageXOffset;
+          endY = ev.clientY - parseInt(canvas.style.top) + window.pageYOffset;
+          drawMode = false;
+          // 用colorFilledBtn（填入顏色的按鈕）有沒有被選取判斷需不需要填入顏色
+          if (rectMode) {drawRectangle(colorFilledBtn.checked)};
+          if (trianMode) {drawTriangle(colorFilledBtn.checked)};
+        };
+        //New Tab開啟
+        document.getElementById("save").onclick = function () {
+          new_win = window.open();
+          new_win.document.write("<img src='" + ctx.canvas.toDataURL("img/png") + "'>");
+        };
+        //清除畫布
+        clearcanvas.addEventListener("click", function () {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+    </script>
+  </body>
+</html>
